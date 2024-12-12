@@ -822,7 +822,7 @@ def main(query_path, filename, chain_id, ligand_list, fea_num_threads, localtime
         # mkdssp does not use -i and -o but <inputfile> <outputfile> directly as args
         DSSP_code = subprocess.call([DSSP, '{}/{}.pdb'.format(query_path, seqid), '{}/{}.dssp'.format(query_path, seqid)])
     if not os.path.exists('{}/{}.dssp'.format(query_path, seqid)):
-        print("ERROR: The upload protein structure is not in correct PDB format, please check the structure!")
+        print("ERROR: Could not find ", '{}/{}.dssp'.format(query_path, seqid), ". Perhaps input PDB format was incorrect and could not be transformed?")
         raise ValueError
     if not os.path.exists('{}/{}.resfea'.format(query_path, seqid)):
         query_pssm = norm_pssm(query_path, seqid)
