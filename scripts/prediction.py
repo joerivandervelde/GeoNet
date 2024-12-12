@@ -758,8 +758,8 @@ class seq_Dataset():
 def predict(model, model_path, query_data):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    # checkpoints = torch.load(model_path, map_location=torch.device('cpu'))
-    checkpoints = torch.load(model_path)
+    checkpoints = torch.load(model_path, map_location=torch.device('cpu'))
+    #checkpoints = torch.load(model_path)
     model.load_state_dict(checkpoints['model_state_dict'])
     model.to(device)
     model.eval()
