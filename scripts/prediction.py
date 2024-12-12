@@ -810,7 +810,7 @@ def main(query_path, filename, chain_id, ligand_list, fea_num_threads, localtime
     for chain in chain_id:
         query_id = pdbid + '_' + chain
         if not os.path.exists('{}/{}.pssm'.format(query_path, query_id)):
-            PSIBLAST_code = subprocess.call([PSIBLAST, '-db', PSIBLAST_DB, '-evalue', '0.001', '-num_iterations', '3',
+            PSIBLAST_code = subprocess.call([PSIBLAST, '-db', PSIBLAST_DB, '-evalue', '0.001', '-num_iterations', '2', '-save_pssm_after_last_round',
                                              '-num_threads', str(fea_num_threads),
                                              '-query', '{}/{}.seq'.format(query_path, query_id),
                                              '-out_ascii_pssm', '{}/{}.pssm'.format(query_path, query_id)])
