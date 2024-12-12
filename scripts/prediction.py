@@ -11,10 +11,16 @@ GEONET = os.path.abspath('..')
 sys.path.append(GEONET)
 
 # Set the absolute paths of blast+, HHBlits and their databases in here.
-PSIBLAST = '/mnt/data0/Hanjy/software/ncbi-blast-2.14.0+/bin/psiblast'
-PSIBLAST_DB = '/mnt/data0/Hanjy/software/database/uniref90/uniref90'
-HHblits = '/mnt/data0/Hanjy/software/hh-suite/build/bin/hhblits'
-HHblits_DB = '/mnt/data0/Hanjy/software/database/uniclust30_2018_08/uniclust30_2018_08'
+# --> Original, for reference:
+#PSIBLAST = '/mnt/data0/Hanjy/software/ncbi-blast-2.14.0+/bin/psiblast'
+#PSIBLAST_DB = '/mnt/data0/Hanjy/software/database/uniref90/uniref90'
+#HHblits = '/mnt/data0/Hanjy/software/hh-suite/build/bin/hhblits'
+#HHblits_DB = '/mnt/data0/Hanjy/software/database/uniclust30_2018_08/uniclust30_2018_08'
+# --> MacOSX:
+PSIBLAST = '/Applications/ncbi-blast-2.16.0+/bin/psiblast'
+PSIBLAST_DB = '/Applications/ncbi-blast-2.16.0+/databases/uniref50/uniref50.fasta'
+HHblits = '/Applications/hhsuite/bin/hhblits'
+HHblits_DB = '/Applications/hhsuite/uniclust30_2018_08/uniclust30_2018_08'
 
 # DSSP is contained in "scripts/dssp", and it should be given executable permission by commend line "chmod +x scripts/dssp".
 DSSP = '/mnt/data0/Hanjy/.conda/envs/pytorch2/bin/mkdssp'
