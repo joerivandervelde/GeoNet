@@ -23,7 +23,11 @@ HHblits = '/Applications/hhsuite/bin/hhblits'
 HHblits_DB = '/Applications/hhsuite/uniclust30_2018_08/uniclust30_2018_08'
 
 # DSSP is contained in "scripts/dssp", and it should be given executable permission by commend line "chmod +x scripts/dssp".
-DSSP = '/mnt/data0/Hanjy/.conda/envs/pytorch2/bin/mkdssp'
+#DSSP = '/mnt/data0/Hanjy/.conda/envs/pytorch2/bin/mkdssp'
+# Update: do not use dssp executable because it is OS/arch specific (even though mkdssp is linked here?)
+# Instead, always and only use mkdssp, installed for your system via https://github.com/PDB-REDO/dssp
+# Note that mkdssp does not use -i and -o but <inputfile> <outputfile> directly as args
+DSSP = '/usr/local/bin/mkdssp'
 
 import pickle
 import numpy as np
@@ -815,8 +819,8 @@ def main(query_path, filename, chain_id, ligand_list, fea_num_threads, localtime
                                             '-i', '{}/{}.seq'.format(query_path, query_id),
                                             '-ohhm', '{}/{}.hhm'.format(query_path, query_id)])
     if not os.path.exists('{}/{}.dssp'.format(query_path, seqid)):
-        DSSP_code = subprocess.call([DSSP, '-i', '{}/{}.pdb'.format(query_path, seqid),
-                                     '-o', '{}/{}.dssp'.format(query_path, seqid)])
+        # mkdssp does not use -i and -o but <inputfile> <outputfile> directly as args
+        DSSP_code = subprocess.call([DSSP, '{}/{}.pdb'.format(query_path, seqid), '{}/{}.dssp'.format(query_path, seqid)])
     if not os.path.exists('{}/{}.dssp'.format(query_path, seqid)):
         print("ERROR: The upload protein structure is not in correct PDB format, please check the structure!")
         raise ValueError
