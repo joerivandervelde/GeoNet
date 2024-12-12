@@ -495,11 +495,13 @@ def norm_hhm(query_path, query_id):
 def norm_DSSP(query_path, query_id):
     maxASA = {'G': 188, 'A': 198, 'V': 220, 'I': 233, 'L': 304, 'F': 272, 'P': 203, 'M': 262, 'W': 317, 'C': 201,
               'S': 234, 'T': 215, 'N': 254, 'Q': 259, 'Y': 304, 'H': 258, 'D': 236, 'E': 262, 'K': 317, 'R': 319}
+    # "P" (= κ-helix, i.e. poly-proline II helix) was not supported in the original script.
+    # Since PPII helices lack hydrogen bonding but have torsion angles φ ≈ -75° and ψ ≈ 145° similar to turns,
+    # DSSP is most likely to classify them as "T" (turn) when "P" would be unavailable, even though no hydrogen bonds are present.
+    # We therefore assign the value of "T" to "P" when encountered in a secondary structure here.
     map_ss_8 = {' ': [1, 0, 0, 0, 0, 0, 0, 0], 'S': [0, 1, 0, 0, 0, 0, 0, 0], 'T': [0, 0, 1, 0, 0, 0, 0, 0],
-                'H': [0, 0, 0, 1, 0, 0, 0, 0],
-                'G': [0, 0, 0, 0, 1, 0, 0, 0], 'I': [0, 0, 0, 0, 0, 1, 0, 0], 'E': [0, 0, 0, 0, 0, 0, 1, 0],
-                'B': [0, 0, 0, 0, 0, 0, 0, 1]}
-
+                'H': [0, 0, 0, 1, 0, 0, 0, 0], 'G': [0, 0, 0, 0, 1, 0, 0, 0], 'I': [0, 0, 0, 0, 0, 1, 0, 0],
+                'E': [0, 0, 0, 0, 0, 0, 1, 0], 'B': [0, 0, 0, 0, 0, 0, 0, 1], 'P': [0, 0, 1, 0, 0, 0, 0, 0]}
     with open('{}/{}.dssp'.format(query_path, query_id), 'r') as f:
         fin_data = f.readlines()
 
