@@ -883,11 +883,8 @@ if __name__ == '__main__':
     fea_num_threads = args.fea_num_threads
     chain_id = args.chain_id
     if not os.path.exists(f'{query_path}/{args.filename}'):
-        print(f'PDB file not find, download the {pdbid} file from RCSB...')
-        pdbl = PDBList()
-        pdbl.retrieve_pdb_file(pdbid, pdir=f'{query_path}/', file_format='pdb')
-        os.system(f'mv {query_path}/pdb{pdbid.lower()}.ent {query_path}/{pdbid}.pdb')
-        filename = f'{pdbid}.pdb'
+        print("Error: PDB not found at ",f'{query_path}/{args.filename}',"\n" )
+        sys.exit(1)
     else:
         filename = args.filename
 
