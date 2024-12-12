@@ -707,8 +707,7 @@ class seq_Dataset():
         if hasattr(self.data, '__num_nodes__'):
             data.num_nodes = self.data.__num_nodes__[idx]
 
-        # for key in self.data.keys():  # use this in aliyun server
-        for key in self.data.keys:
+        for key in self.data.keys():
             item, slices = self.data[key], self.slices[key]
             s = list(repeat(slice(None), item.dim()))
             s[self.data.__cat_dim__(key, item)] = slice(
@@ -723,8 +722,7 @@ class seq_Dataset():
         return copy
 
     def collate(self, data_list):
-        keys = data_list[0].keys  # use blow that in aliyun server
-        # keys = list(data_list[0].keys())
+        keys = list(data_list[0].keys())
         data = data_list[0].__class__()
         for key in keys:
             data[key] = []
