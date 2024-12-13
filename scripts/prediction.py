@@ -45,7 +45,7 @@ from torch_cluster import radius_graph
 
 # python prediction.py --querypath ../output/example --ligand DNA --pdbid 6ide --chainid B --filename 6ide_B.pdb
 
-def parse_args():
+def parse_args(args=None):
     parser = argparse.ArgumentParser(description="Launch a list of commands.")
     parser.add_argument("--querypath", dest="query_path", default='../output/example',
                         help="The path of query structure")
@@ -59,7 +59,7 @@ def parse_args():
                         help='Ligand types. Multiple ligands should be separated by commas. You can choose from DNA,RNA,CA,MG,MN,ATP,HEME.')
     parser.add_argument("--cpu", dest="fea_num_threads", default='20',
                         help="The number of CPUs used for calculating PSSM and HMM profile.")
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 def SaveChainPDB(chain_id, query_path, filename, query_id):
