@@ -1,2 +1,11 @@
 # MacOSX
 .DS_Store
+
+# pycache objects
+ModelCode
+
+# all generated outputs
+output
+
+# R
+.Rhistory
