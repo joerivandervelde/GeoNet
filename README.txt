@@ -1,4 +1,110 @@
 ```
+##################################
+# INSTALLATION UPDATE 2024/12/13 #
+# SEE BELOW FOR ORIGINAL README  #
+##################################
+GeoNet requires these tools to be set up correctly:
+ -> PSI-BLAST
+ -> HHblits
+ -> mkdssp
+ -> GeoNet scripts/prediction.py
+In more detail:
+
+
+#############
+# PSI-BLAST #
+#############
+
+# Install BLAST+ from
+https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/
+
+# Test the executable just to make sure
+/Applications/ncbi-blast-2.16.0+/bin/psiblast
+
+# Download uniref50.fasta.gz from
+https://ftp.ebi.ac.uk/pub/databases/uniprot/uniref/uniref50/
+
+# Make BLAST database
+# first extract uniref50.fasta.gz to uniref50.fasta
+# then run makeblastdb
+/Applications/ncbi-blast-2.16.0+/bin/makeblastdb -in /Users/joeri/Downloads/uniref50.fasta -input_type fasta -title uniref50 -dbtype prot
+# NB: database is created in the folder where uniref50.fasta is located! move to better location if needed
+
+# Check if all went right by getting database info
+cd /Applications/ncbi-blast-2.16.0+/bin/
+blastdbcmd -db ../databases/uniref50/uniref50.fasta -info
+
+# Check if PSI-BLAST runs on a FASTA file of your choice
+cd /Applications/ncbi-blast-2.16.0+/test
+/Applications/ncbi-blast-2.16.0+/bin/psiblast -query A2M.fasta -db /Applications/ncbi-blast-2.16.0+/databases/uniref50/uniref50.fasta  -num_iterations 2 -out_ascii_pssm A2M_ascii.pssm -save_pssm_after_last_round -num_threads 6
+
+
+###########
+# HHblits #
+###########
+
+# Download precompiled executable from
+https://dev.mmseqs.com/hhsuite/
+
+# Download uniclust30_2018_08_hhsuite.tar.gz from
+https://gwdu111.gwdg.de/~compbiol/uniclust/2018_08/
+
+#  Check if HHblits runs on a FASTA file of your choice
+cd /Applications/hhsuite/bin/hhblits
+./bin/hhblits -d /Applications/hhsuite/uniclust30_2018_08/uniclust30_2018_08 -cpu 6 -i test/A2M.fasta -ohhm test/A2M.hhm
+
+
+##########
+# mkdssp #
+##########
+
+# Download source package from
+https://github.com/PDB-REDO/dssp
+# or Git clone if you prefer
+git clone https://github.com/PDB-REDO/dssp.git
+# Compile according to the instructions
+cd dssp
+cmake -S . -B build
+cmake --build build
+cmake --install build
+# Test the executable
+/Applications/dssp-4.4.10/build/mkdssp
+
+
+################################
+# GeoNet scripts/prediction.py #
+################################
+
+# If everything is working, open scripts/prediction.py (in the same folder as this README)
+# and set up the paths to the above installed executables and databases, for instance:
+PSIBLAST = '/Applications/ncbi-blast-2.16.0+/bin/psiblast'
+PSIBLAST_DB = '/Applications/ncbi-blast-2.16.0+/databases/uniref50/uniref50.fasta'
+HHblits = '/Applications/hhsuite/bin/hhblits'
+HHblits_DB = '/Applications/hhsuite/uniclust30_2018_08/uniclust30_2018_08'
+DSSP = '/usr/local/bin/mkdssp'
+# Test if it works with a PDB file of your choice
+python prediction.py --querypath ../output/A2M --filename A2M.pdb --pdbid A2M --chainid A --ligand DNA --cpu 4
+
+
+#########
+# Notes #
+#########
+
+On a Mac M1, the right dependencies for Python 3.8 can apparently only be installed via a Conda environment.
+However Conda environments are problematic when running GeoNet via external means such as an R script.
+An alternative that seems to work is to use a Python 3.12.2 base environment, with these libraries installed:
+pip install biopython
+pip install torch torchvision torchaudio
+pip install torch_geometric
+pip install pandas
+pip install scikit-learn
+pip install torch_cluster
+pip install torch_scatter
+
+##################################
+
+
+
                         Installation and implementation of GeoNet
                                 (version 1.0 2024/03/17)
 
